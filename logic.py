@@ -113,13 +113,25 @@ WHERE project_name=? AND user_id=?
         self.__executemany(f"UPDATE projects SET {param} = ? WHERE project_name = ? AND user_id = ?", [data]) # data ('atr', 'mew', 'name', 'user_id')
 
 
-    def delete_project(self, user_id, project_id):
-        sql = "DELETE FROM projects WHERE user_id = ? AND project_id = ? "
-        self.__executemany(sql, [(user_id, project_id)])
+def delete_project(self, user_id, project_id):
+    sql = "DELETE FROM projects WHERE user_id = ? AND project_id = ?"
+    self.__executemany(sql, [(user_id, project_id)])
 
-    def delete_skill(self, project_id, skill_id):
-        sql = "DELETE FROM skills WHERE skill_id = ? AND project_id = ? "
-        self.__executemany(sql, [(skill_id, project_id)])
+def delete_skill(self, skill_id):
+    sql = "DELETE FROM skills WHERE skill_id = ?"
+    self.__executemany(sql, [(skill_id,)])
+
+def delete_status(self, status_id):
+    sql = "DELETE FROM status WHERE status_id = ?"
+    self.__executemany(sql, [(status_id,)])
+
+def add_skill(self, skill_name):
+    sql = "INSERT OR IGNORE INTO skills (skill_name) VALUES (?)"
+    self.__executemany(sql, [(skill_name,)])
+
+def update_project_status(self, user_id, project_name, status_id):
+    sql = "UPDATE projects SET status_id = ? WHERE project_name = ? AND user_id = ?"
+    self.__executemany(sql, [(status_id, project_name, user_id)])
 
 
 if __name__ == '__main__':
