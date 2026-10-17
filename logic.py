@@ -128,12 +128,9 @@ WHERE project_name=? AND user_id=?
         sql = "UPDATE projects SET status_id = ? WHERE project_name = ? AND user_id = ?"
         self.__executemany(sql, [(status_id, project_name, user_id)])
 
-    def add_screenshot_column(self):
+    def add_column(self, table_name, new_column_name, new_column_type):
         conn = sqlite3.connect(self.database)
         cursor = conn.cursor()
-        table_name = 'projects'
-        new_column_name = 'screenshot'
-        new_column_type = 'TEXT'
         alter_query = f"ALTER TABLE {table_name} ADD COLUMN {new_column_name} {new_column_type}"
         cursor.execute(alter_query)
         conn.commit()
@@ -144,4 +141,4 @@ if __name__ == '__main__':
     manager = DB_Manager(DATABASE)
     manager.create_tables()
     manager.default_insert()
-    manager.add_screenshot_column()
+    manager.add_column('projects', 'screenshot', 'TEXT')
